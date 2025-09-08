@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Check, ArrowRight, Star, Zap, Building } from 'lucide-react';
 
 const PricingSection = () => {
@@ -71,7 +72,17 @@ const PricingSection = () => {
 
   const PricingCard = ({ plan }) => {
     return (
-      <div className={`relative pricing-card ${plan.popular ? 'popular' : ''}`}>
+      <motion.div 
+        className={`relative pricing-card ${plan.popular ? 'popular' : ''}`}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        whileHover={{ 
+          y: -10,
+          transition: { duration: 0.3 }
+        }}
+      >
         {plan.popular && (
           <div className="popular-badge">
             Most Popular
@@ -106,12 +117,16 @@ const PricingSection = () => {
         </div>
 
         <div className="card-footer">
-          <button className={`cta-button ${plan.buttonStyle}`}>
+          <motion.button 
+            className={`cta-button ${plan.buttonStyle}`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
             {plan.buttonText}
             <ArrowRight className="arrow-icon" />
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -215,6 +230,29 @@ const PricingSection = () => {
           grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
           gap: 2rem;
           margin-top: 3rem;
+        }
+
+        /* Mobile Horizontal Scroller */
+        @media (max-width: 1024px) {
+          .pricing-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 0 1rem 2rem 1rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+          
+          .pricing-grid::-webkit-scrollbar {
+            display: none;
+          }
+
+          .pricing-card {
+            flex: 0 0 320px;
+            scroll-snap-align: center;
+          }
         }
 
         .pricing-card {

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -191,8 +192,9 @@ const DesignCard = ({ card }) => {
   };
 
   return (
-    <div 
-      className="design-card"
+    <motion.a 
+      href="#"
+      className="design-card block cursor-pointer"
       style={{
         backgroundColor: card.color,
         color: card.textColor,
@@ -200,9 +202,20 @@ const DesignCard = ({ card }) => {
         transformStyle: 'preserve-3d',
         backgroundImage: `url(${card.backgroundImage})`
       }}
+      whileHover={{ 
+        scale: 1.05,
+        rotateY: 5,
+        transition: { duration: 0.3 }
+      }}
+      whileTap={{ scale: 0.98 }}
+      onClick={(e) => {
+        e.preventDefault();
+        console.log(`Clicked on ${card.title} project`);
+        // Future: navigate to project detail page
+      }}
     >
       {renderCardContent()}
-    </div>
+    </motion.a>
   );
 };
 

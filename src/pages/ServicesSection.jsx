@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Code, Server, Layers, Palette, Link, Users } from 'lucide-react';
 
 const servicesData = [
@@ -44,13 +45,22 @@ const ServiceCard = ({ service }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div 
-      className="group relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 transition-all duration-500 hover:bg-slate-800/70 hover:border-orange-500/30 hover:shadow-2xl hover:shadow-orange-500/10"
+    <motion.div 
+      className="group relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{
-        transform: isHovered ? 'translateY(-8px)' : 'translateY(0px)',
+      whileHover={{ 
+        y: -8,
+        transition: { duration: 0.3, ease: "easeOut" }
       }}
+      animate={{
+        borderColor: isHovered ? "rgba(249, 115, 22, 0.3)" : "rgba(71, 85, 105, 0.5)",
+        backgroundColor: isHovered ? "rgba(30, 41, 59, 0.7)" : "rgba(30, 41, 59, 0.5)",
+        boxShadow: isHovered 
+          ? "0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(249, 115, 22, 0.1)"
+          : "0 4px 20px rgba(0, 0, 0, 0.1)"
+      }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
     >
       {/* Gradient overlay on hover */}
       <div className={`absolute inset-0 bg-gradient-to-br from-orange-500/5 to-purple-500/5 rounded-2xl transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
@@ -76,20 +86,26 @@ const ServiceCard = ({ service }) => {
           </p>
           
           {/* Learn More Button */}
-          <button className="inline-flex items-center text-orange-400 hover:text-orange-300 font-medium text-sm transition-colors duration-300 group/btn">
+          <motion.button 
+            className="inline-flex items-center text-orange-400 hover:text-orange-300 font-medium text-sm transition-colors duration-300 group/btn"
+            whileHover={{ x: 5 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Learn More
-            <svg 
-              className="w-4 h-4 ml-2 transform group-hover/btn:translate-x-1 transition-transform duration-300" 
+            <motion.svg 
+              className="w-4 h-4 ml-2" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
+              whileHover={{ x: 3 }}
+              transition={{ duration: 0.2 }}
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+            </motion.svg>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -220,21 +236,67 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Services Grid */}
+        {/* Services Grid - Horizontal Layout */}
         <div className="mt-20">
-          <div className="text-center mb-12">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <h3 className="text-2xl md:text-3xl font-light text-white mb-4">
               Our <span className="text-orange-400">Services</span>
             </h3>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Comprehensive solutions for all your web development needs
             </p>
-          </div>
+          </motion.div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {servicesData.map((service, index) => (
-              <ServiceCard key={index} service={service} index={index} />
+          {/* Desktop: 2 rows with 3 cards each */}
+          <div className="hidden lg:grid grid-cols-3 gap-8 mb-8">
+            {servicesData.slice(0, 3).map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <ServiceCard service={service} index={index} />
+              </motion.div>
             ))}
+          </div>
+          <div className="hidden lg:grid grid-cols-3 gap-8">
+            {servicesData.slice(3, 6).map((service, index) => (
+              <motion.div
+                key={index + 3}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <ServiceCard service={service} index={index + 3} />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mobile & Tablet: Horizontal Scroller */}
+          <div className="lg:hidden overflow-x-auto pb-4">
+            <div className="flex gap-6 min-w-max px-4">
+              {servicesData.map((service, index) => (
+                <motion.div
+                  key={index}
+                  className="flex-shrink-0 w-80"
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <ServiceCard service={service} index={index} />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
