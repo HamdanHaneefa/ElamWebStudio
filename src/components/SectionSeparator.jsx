@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 const SectionSeparator = ({ variant = 'default' }) => {
   return (
-    <div className="w-full flex justify-center py-16">
+    <div className="w-full flex justify-center py-8">
       <motion.div 
         className="w-full max-w-4xl"
         initial={{ opacity: 0, scaleX: 0 }}
