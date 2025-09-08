@@ -8,7 +8,13 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const navItems = ['Home', 'Services', 'Portfolio', 'Pricing', 'About'];
+  const navItems = [
+    { name: 'Home', href: '#home' },
+    { name: 'Services', href: '#services' },
+    { name: 'Portfolio', href: '#portfolio' },
+    { name: 'Pricing', href: '#pricing' },
+    { name: 'About', href: '#about' }
+  ];
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -60,16 +66,16 @@ const Navbar = () => {
               {navItems.map((item, index) => (
                 <motion.a
                   key={index}
-                  href="#"
+                  href={item.href}
                   className={`text-lg font-bold transition-all duration-300 hover:text-orange-400 hover:scale-105 ${
-                    item === 'Home' ? 'text-orange-400' : 'text-white'
+                    item.name === 'Home' ? 'text-orange-400' : 'text-white'
                   }`}
                   whileHover={{ y: -2, scale: 1.05 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.2 }}
                 >
-                  {item}
+                  {item.name}
                 </motion.a>
               ))}
             </div>
@@ -124,9 +130,9 @@ const Navbar = () => {
                   {navItems.map((item, index) => (
                     <motion.a
                       key={index}
-                      href="#"
+                      href={item.href}
                       className={`text-xl font-bold transition-colors duration-300 hover:text-orange-400 ${
-                        item === 'Home' ? 'text-orange-400' : 'text-white'
+                        item.name === 'Home' ? 'text-orange-400' : 'text-white'
                       }`}
                       onClick={() => setIsOpen(false)}
                       initial={{ opacity: 0, x: -20 }}
@@ -134,7 +140,7 @@ const Navbar = () => {
                       transition={{ delay: index * 0.1 + 0.2 }}
                       whileHover={{ x: 10, scale: 1.05 }}
                     >
-                      {item}
+                      {item.name}
                     </motion.a>
                   ))}
                   <motion.button 
