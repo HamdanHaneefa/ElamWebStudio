@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/Logo.png';
+import { trackButtonClick, trackSectionView } from '../utils/analytics';
+
+// Title mappings for different sections
+const titleMappings = {
+  home: 'ElamWebStudio - Professional Web Development & Design Services',
+  services: 'ElamWebStudio - Services | Web Development & Design Solutions',
+  portfolio: 'ElamWebStudio - Portfolio | Our Latest Design Work',
+  pricing: 'ElamWebStudio - Pricing | Affordable Web Development Packages',
+  about: 'ElamWebStudio - About Us | Your Partner in Digital Excellence'
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,12 +19,26 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'About', href: '#about' }
+    { name: 'Home', href: '#home', section: 'home' },
+    { name: 'Services', href: '#services', section: 'services' },
+    { name: 'Portfolio', href: '#portfolio', section: 'portfolio' },
+    { name: 'Pricing', href: '#pricing', section: 'pricing' },
+    { name: 'About', href: '#about', section: 'about' }
   ];
+
+  // Function to handle navigation click and update title
+  const handleNavClick = (section, navName) => {
+    if (titleMappings[section]) {
+      document.title = titleMappings[section];
+    }
+    
+    // Track navigation clicks
+    trackButtonClick(navName, 'Navigation');
+    trackSectionView(section);
+    
+    // Close mobile menu if open
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -53,13 +77,15 @@ const Navbar = () => {
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             {/* Logo - Single logo for all views */}
-            <motion.div 
-              className="flex items-center"
+            <motion.a
+              href="#home"
+              onClick={() => handleNavClick('home', 'Logo')}
+              className="flex items-center cursor-pointer"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
-              <img src={logo} alt="Logo" className="h-16 md:h-20 w-auto drop-shadow-lg" />
-            </motion.div>
+              <img src={logo} alt="ElamWebStudio Logo" className="h-16 md:h-20 w-auto drop-shadow-lg" />
+            </motion.a>
 
             {/* Desktop Menu - Centered */}
             <div className="hidden lg:flex items-center space-x-12">
@@ -67,6 +93,7 @@ const Navbar = () => {
                 <motion.a
                   key={index}
                   href={item.href}
+                  onClick={() => handleNavClick(item.section, item.name)}
                   className={`text-lg font-bold transition-all duration-300 hover:text-orange-400 hover:scale-105 ${
                     item.name === 'Home' ? 'text-orange-400' : 'text-white'
                   }`}
@@ -84,6 +111,7 @@ const Navbar = () => {
             <div className="hidden lg:block">
               <motion.button 
                 className="bg-transparent border-2 border-orange-400 text-orange-400 px-8 py-3 rounded-lg text-lg font-bold hover:bg-orange-400 hover:text-white transition-all duration-300 shadow-lg hover:shadow-orange-400/25"
+                onClick={() => trackButtonClick('Let\'s Talk', 'Navigation')}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, x: 20 }}
@@ -134,7 +162,7 @@ const Navbar = () => {
                       className={`text-xl font-bold transition-colors duration-300 hover:text-orange-400 ${
                         item.name === 'Home' ? 'text-orange-400' : 'text-white'
                       }`}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => handleNavClick(item.section, item.name)}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 + 0.2 }}
@@ -145,7 +173,10 @@ const Navbar = () => {
                   ))}
                   <motion.button 
                     className="bg-transparent border-2 border-orange-400 text-orange-400 px-10 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 hover:text-white transition-all duration-300 shadow-lg"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      trackButtonClick('Let\'s Talk', 'Mobile Navigation');
+                      setIsOpen(false);
+                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}

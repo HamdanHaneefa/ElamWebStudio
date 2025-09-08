@@ -292,11 +292,12 @@ const DesignShowcase = () => {
     >
       <style jsx>{`
         .design-showcase-section {
-          height: 100vh;
+          height: 80vh;
           overflow: hidden;
           background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
           position: relative;
           width: 100%;
+          padding: 2rem 0;
         }
 
         .showcase-header {
@@ -321,28 +322,28 @@ const DesignShowcase = () => {
           font-size: 0.875rem;
           font-weight: 500;
           letter-spacing: 0.05em;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
         }
 
         .showcase-title {
-          font-size: clamp(2rem, 4vw, 3rem);
+          font-size: clamp(1.75rem, 4vw, 2.5rem);
           font-weight: 300;
           color: white;
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
           line-height: 1.2;
         }
 
         .showcase-subtitle {
-          font-size: 1rem;
+          font-size: 0.875rem;
           color: #94a3b8;
-          max-width: 600px;
+          max-width: 500px;
           margin: 0 auto;
-          line-height: 1.6;
+          line-height: 1.4;
         }
 
         .cards-container {
           position: absolute;
-          top: 50%;
+          top: 65%;
           left: 0;
           transform: translateY(-50%);
           display: flex;
@@ -680,32 +681,64 @@ const DesignShowcase = () => {
           z-index: 10;
         }
 
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .showcase-title {
+            font-size: 2rem;
+          }
+
+          .cards-container {
+            top: 62%;
+          }
+
+          .showcase-header {
+            top: 6%;
+          }
+        }
+
         @media (max-width: 768px) {
+          .design-showcase-section {
+            height: 70vh;
+            padding: 1rem 0;
+          }
+
           .design-card {
             width: 250px;
-            height: 380px;
+            height: 360px;
             padding: 1.25rem;
           }
 
           .showcase-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
           }
 
           .showcase-subtitle {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             padding: 0 1rem;
+            max-width: 300px;
+          }
+
+          .showcase-category {
+            font-size: 0.75rem;
+            padding: 6px 16px;
+            margin-bottom: 0.75rem;
           }
           
           .cards-container {
             gap: 1.5rem;
-            height: 380px;
-            top: 52%;
+            height: 360px;
+            top: 70%;
             padding-left: 1rem;
           }
 
           .showcase-header {
             top: 8%;
             padding: 0 1rem;
+          }
+
+          .scroll-indicator {
+            font-size: 0.75rem;
+            bottom: 1rem;
           }
         }
       `}</style>

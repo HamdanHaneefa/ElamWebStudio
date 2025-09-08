@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { trackFormSubmission, trackContactInteraction } from '../utils/analytics';
 
 const ContactAboutSection = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +21,13 @@ const ContactAboutSection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    
+    // Track form submission
+    trackFormSubmission('Contact Form');
+    trackContactInteraction('Form Submission');
+    
     // Handle form submission here
+    // You can add your form submission logic here
   };
 
   return (
