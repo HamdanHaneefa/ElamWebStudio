@@ -8,11 +8,21 @@ import ContactAboutSection from './ContactAboutSection';
 const Homepage = () => {
   return (
     <div>
-      <HeroSection />
-      <ServicesSection />
-      <DesignShowcase />
-      <PricingSection />
-      <ContactAboutSection />
+      <section id="home">
+        <HeroSection />
+      </section>
+      <section id="services">
+        <ServicesSection />
+      </section>
+      <section id="portfolio">
+        <DesignShowcase />
+      </section>
+      <section id="pricing">
+        <PricingSection />
+      </section>
+      <section id="about">
+        <ContactAboutSection />
+      </section>
       <WhyChooseUsSection />
     </div>
   );
