@@ -1,0 +1,426 @@
+import React, { useState } from 'react';
+
+const ContactAboutSection = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+    consent: false
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Handle form submission here
+  };
+
+  return (
+    <section className="contact-about-section">
+      <style jsx>{`
+        .contact-about-section {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+          padding: 4rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 2rem;
+          width: 100%;
+        }
+
+        .content-wrapper {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4rem;
+          align-items: center;
+          min-height: 70vh;
+        }
+
+        .about-section {
+          color: white;
+        }
+
+        .about-header {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 2rem;
+        }
+
+        .about-icon {
+          width: 24px;
+          height: 24px;
+          color: #f97316;
+        }
+
+        .about-title {
+          font-size: 2rem;
+          font-weight: 600;
+          color: white;
+          margin: 0;
+        }
+
+        .about-subtitle {
+          font-size: 1rem;
+          color: #94a3b8;
+          margin-bottom: 2rem;
+          line-height: 1.6;
+        }
+
+        .about-description {
+          font-size: 1rem;
+          color: #cbd5e1;
+          line-height: 1.7;
+          margin-bottom: 2rem;
+        }
+
+        .about-mission {
+          font-size: 1rem;
+          color: #cbd5e1;
+          line-height: 1.7;
+          margin-bottom: 0;
+        }
+
+        .contact-section {
+          background: rgba(30, 41, 59, 0.5);
+          border: 1px solid rgba(71, 85, 105, 0.3);
+          border-radius: 20px;
+          padding: 2.5rem;
+          backdrop-filter: blur(10px);
+        }
+
+        .contact-header {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+          width: 24px;
+          height: 24px;
+          color: #f97316;
+        }
+
+        .contact-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: white;
+          margin: 0;
+        }
+
+        .contact-subtitle {
+          font-size: 0.875rem;
+          color: #94a3b8;
+          margin-bottom: 2rem;
+          line-height: 1.6;
+        }
+
+        .form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .form-group.full-width {
+          grid-column: 1 / -1;
+        }
+
+        .form-label {
+          font-size: 0.875rem;
+          color: #e2e8f0;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+        }
+
+        .required {
+          color: #f97316;
+        }
+
+        .form-input,
+        .form-textarea {
+          background: rgba(15, 23, 42, 0.6);
+          border: 1px solid rgba(71, 85, 105, 0.4);
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          color: white;
+          font-size: 0.875rem;
+          transition: all 0.3s ease;
+          outline: none;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+          border-color: #f97316;
+          box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+          color: #64748b;
+        }
+
+        .form-textarea {
+          resize: vertical;
+          min-height: 120px;
+          font-family: inherit;
+        }
+
+        .checkbox-group {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          margin: 1.5rem 0;
+        }
+
+        .checkbox-input {
+          width: 16px;
+          height: 16px;
+          margin-top: 2px;
+          accent-color: #f97316;
+        }
+
+        .checkbox-label {
+          font-size: 0.8rem;
+          color: #94a3b8;
+          line-height: 1.5;
+          flex: 1;
+        }
+
+        .required-note {
+          color: #f97316;
+          font-weight: 500;
+        }
+
+        .submit-button {
+          width: 100%;
+          background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+          border: none;
+          border-radius: 8px;
+          padding: 0.875rem 1.5rem;
+          color: white;
+          font-size: 0.875rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+
+        .submit-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .submit-button:active {
+          transform: translateY(0);
+        }
+
+        .submit-icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        @media (max-width: 1024px) {
+          .content-wrapper {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+          }
+
+          .about-section {
+            order: 2;
+          }
+
+          .contact-section {
+            order: 1;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .contact-about-section {
+            padding: 2rem 0;
+          }
+
+          .container {
+            padding: 0 1rem;
+          }
+
+          .content-wrapper {
+            gap: 2rem;
+          }
+
+          .form-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .contact-section {
+            padding: 2rem;
+          }
+
+          .about-title {
+            font-size: 1.75rem;
+          }
+
+          .contact-title {
+            font-size: 1.25rem;
+          }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="content-wrapper">
+          {/* About Section */}
+          <div className="about-section">
+            <div className="about-header">
+              <svg className="about-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h2 className="about-title">About ElamWebStudio</h2>
+            </div>
+            
+            <p className="about-subtitle">
+              A Sub-brand of Elamai.in
+            </p>
+
+            <div className="about-description">
+              ElamWebStudio is a dynamic web development studio that specializes in 
+              creating cutting-edge digital solutions. As a sub-brand of Elamai.in, we 
+              combine innovation with expertise to deliver exceptional web applications 
+              and digital experiences.
+            </div>
+
+            <div className="about-mission">
+              Our team focuses on modern web technologies, user-centered design, and 
+              scalable solutions that help businesses thrive in the digital landscape. We 
+              pride ourselves on delivering quality, reliability, and innovation in every 
+              project.
+            </div>
+          </div>
+
+          {/* Contact Section */}
+          <div className="contact-section">
+            <div className="contact-header">
+              <svg className="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <h3 className="contact-title">Get In Touch</h3>
+            </div>
+
+            <p className="contact-subtitle">
+              Ready to start your next project? Let's discuss how we can help bring your ideas to life.
+            </p>
+
+            <form onSubmit={handleSubmit}>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label className="form-label">
+                    Name <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Your full name"
+                    className="form-input"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">
+                    Email <span className="required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="your.email@example.com"
+                    className="form-input"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group full-width">
+                <label className="form-label">
+                  Subject <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  placeholder="What's this about?"
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group full-width">
+                <label className="form-label">
+                  Message <span className="required">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="Tell us about your project..."
+                  className="form-textarea"
+                  required
+                />
+              </div>
+
+              <div className="checkbox-group">
+                <input
+                  type="checkbox"
+                  name="consent"
+                  id="consent"
+                  checked={formData.consent}
+                  onChange={handleInputChange}
+                  className="checkbox-input"
+                  required
+                />
+                <label htmlFor="consent" className="checkbox-label">
+                  I agree to allow this website to store my submission so they can respond to my inquiry. <span className="required-note">*</span>
+                </label>
+              </div>
+
+              <button type="submit" className="submit-button">
+                <svg className="submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactAboutSection;
