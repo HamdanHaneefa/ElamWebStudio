@@ -232,12 +232,12 @@ const PricingSection = () => {
           margin-top: 3rem;
         }
 
-        /* Mobile Horizontal Scroller */
+        /* Mobile Horizontal Scroller - Show one card at a time */
         @media (max-width: 1024px) {
           .pricing-grid {
             display: flex;
             overflow-x: auto;
-            gap: 1.5rem;
+            gap: 1rem;
             padding: 0 1rem 2rem 1rem;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
@@ -250,8 +250,18 @@ const PricingSection = () => {
           }
 
           .pricing-card {
-            flex: 0 0 320px;
+            flex: 0 0 calc(100vw - 2rem);
+            max-width: 350px;
             scroll-snap-align: center;
+            margin: 0 auto;
+          }
+        }
+
+        /* Tablet view - show two cards */
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .pricing-card {
+            flex: 0 0 calc(50vw - 1.5rem);
+            max-width: 380px;
           }
         }
 

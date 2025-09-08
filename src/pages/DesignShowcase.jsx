@@ -233,15 +233,19 @@ const DesignShowcase = () => {
     const cardElements = cards.querySelectorAll('.design-card');
     const cardWidth = 300 + 32; // Card width + gap (2rem = 32px)
     const totalWidth = cardElements.length * cardWidth;
+    const maxScroll = Math.max(0, totalWidth - window.innerWidth + 200);
+    
+    // Only create scroll animation if there's content to scroll
+    if (maxScroll <= 0) return;
     
     // Create horizontal scroll animation
     const scrollTween = gsap.to(cards, {
-      x: () => -(totalWidth - window.innerWidth + 100),
+      x: () => -maxScroll,
       ease: "none",
       scrollTrigger: {
         trigger: container,
         start: "top top",
-        end: () => `+=${totalWidth * 1.5}`,
+        end: () => `+=${maxScroll}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
