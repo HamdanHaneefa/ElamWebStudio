@@ -1,18 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const designCards = [
   {
     id: 1,
     title: 'Collective Lux',
     category: 'Branding',
-    color: '#f8f9fa',
-    textColor: '#2d3748',
     type: 'logo',
+    bgColor: 'bg-gray-50',
+    textColor: 'text-gray-800',
     backgroundImage: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=600&fit=crop&crop=center'
   },
   {
@@ -21,9 +17,9 @@ const designCards = [
     subtitle: 'Femina Haircut & Spa • Blue Hair Spa & Spa Facial - $349',
     details: 'Full Long Full Hands Underarms & Brazil - $199',
     category: 'Social Media',
-    color: '#4c51bf',
-    textColor: '#fff',
     type: 'promo',
+    bgColor: 'bg-indigo-600',
+    textColor: 'text-white',
     backgroundImage: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=600&fit=crop&crop=center'
   },
   {
@@ -31,18 +27,18 @@ const designCards = [
     title: 'NATURE',
     subtitle: "Nature's Gift to Your Skin",
     category: 'Package Design',
-    color: '#38a169',
-    textColor: '#fff',
     type: 'nature',
+    bgColor: 'bg-green-600',
+    textColor: 'text-white',
     backgroundImage: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=600&fit=crop&crop=center'
   },
   {
     id: 4,
     title: 'PRO CRUNCH',
     category: 'Product Design',
-    color: '#f7fafc',
-    textColor: '#2d3748',
     type: 'product',
+    bgColor: 'bg-gray-50',
+    textColor: 'text-gray-800',
     backgroundImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=600&fit=crop&crop=center'
   },
   {
@@ -50,27 +46,27 @@ const designCards = [
     title: 'MILKSHAKE HAIRCARE',
     subtitle: 'Premium Beauty Products',
     category: 'Beauty Brand',
-    color: '#d69e2e',
-    textColor: '#fff',
     type: 'beauty',
+    bgColor: 'bg-yellow-600',
+    textColor: 'text-white',
     backgroundImage: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=600&fit=crop&crop=center'
   },
   {
     id: 6,
     title: 'YOUR PARTNER IN SKIN WELLNESS',
     category: 'Healthcare',
-    color: '#ed8936',
-    textColor: '#fff',
     type: 'wellness',
+    bgColor: 'bg-orange-600',
+    textColor: 'text-white',
     backgroundImage: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=600&fit=crop&crop=center'
   },
   {
     id: 7,
     title: 'Collective Lux',
     category: 'Logo Design',
-    color: '#f8f9fa',
-    textColor: '#2d3748',
     type: 'logo',
+    bgColor: 'bg-gray-50',
+    textColor: 'text-gray-800',
     backgroundImage: 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=400&h=600&fit=crop&crop=center'
   },
   {
@@ -79,9 +75,9 @@ const designCards = [
     subtitle: 'Femina Haircut & Spa',
     details: 'Premium Packages Available',
     category: 'Marketing',
-    color: '#553c9a',
-    textColor: '#fff',
     type: 'promo',
+    bgColor: 'bg-purple-700',
+    textColor: 'text-white',
     backgroundImage: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=600&fit=crop&crop=center'
   },
   {
@@ -89,27 +85,31 @@ const designCards = [
     title: 'NATURE',
     subtitle: "Nature's Gift to Your Skin",
     category: 'Eco Design',
-    color: '#38a169',
-    textColor: '#fff',
     type: 'nature',
+    bgColor: 'bg-green-600',
+    textColor: 'text-white',
     backgroundImage: 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?w=400&h=600&fit=crop&crop=center'
   }
 ];
 
-const DesignCard = ({ card }) => {
+const DesignCard = ({ card, isActive }) => {
   const renderCardContent = () => {
     switch (card.type) {
       case 'logo':
         return (
           <>
-            <div className="card-content">
-              <div className="card-category">{card.category}</div>
-              <div className="card-title">{card.title}</div>
+            <div className="relative z-10">
+              <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80 mb-4">
+                {card.category}
+              </div>
+              <div className="text-2xl font-bold leading-tight mb-2">
+                {card.title}
+              </div>
             </div>
-            <div className="logo-design">
-              <div className="logo-circle">
-                <div className="logo-inner">
-                  <svg viewBox="0 0 100 100" className="logo-svg">
+            <div className="absolute bottom-8 right-8 flex items-center justify-center">
+              <div className="w-20 h-20 border-2 border-current rounded-full opacity-60 flex items-center justify-center">
+                <div className="w-15 h-15 flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" className="w-10 h-10">
                     <path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="currentColor" strokeWidth="2"/>
                     <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="1.5"/>
                   </svg>
@@ -120,60 +120,106 @@ const DesignCard = ({ card }) => {
         );
       case 'promo':
         return (
-          <div className="promo-content">
-            <div className="promo-header">
-              <div className="card-category">{card.category}</div>
-              <div className="promo-badge">EXCLUSIVE</div>
+          <div className="h-full flex flex-col justify-between">
+            <div className="flex justify-between items-start mb-8">
+              <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80">
+                {card.category}
+              </div>
+              <div className="bg-white/20 px-4 py-2 rounded-full text-xs font-bold">
+                EXCLUSIVE
+              </div>
             </div>
-            <div className="card-title">{card.title}</div>
-            {card.subtitle && <div className="card-subtitle">{card.subtitle}</div>}
-            {card.details && <div className="promo-details">{card.details}</div>}
-            <div className="promo-cta">Book Now</div>
+            <div className="text-2xl font-bold leading-tight mb-2">
+              {card.title}
+            </div>
+            {card.subtitle && (
+              <div className="text-base opacity-90 leading-relaxed">
+                {card.subtitle}
+              </div>
+            )}
+            {card.details && (
+              <div className="text-sm opacity-80 my-4">
+                {card.details}
+              </div>
+            )}
+            <div className="bg-white/20 px-8 py-4 rounded-full text-center font-semibold mt-auto">
+              Book Now
+            </div>
           </div>
         );
       case 'nature':
         return (
           <>
-            <div className="card-content">
-              <div className="card-category">{card.category}</div>
-              <div className="nature-title">{card.title}</div>
-              {card.subtitle && <div className="nature-subtitle">{card.subtitle}</div>}
-            </div>
-            <div className="nature-design">
-              <div className="nature-leaves">
-                <div className="leaf leaf-1"></div>
-                <div className="leaf leaf-2"></div>
-                <div className="leaf leaf-3"></div>
+            <div className="relative z-10">
+              <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80 mb-4">
+                {card.category}
               </div>
-              <div className="nature-badge">NATURE'S GIFT<br />TO YOUR SKIN</div>
+              <div className="text-4xl font-black tracking-tight mb-2">
+                {card.title}
+              </div>
+              {card.subtitle && (
+                <div className="text-base opacity-90 mb-8">
+                  {card.subtitle}
+                </div>
+              )}
+            </div>
+            <div className="absolute bottom-0 right-0 w-full h-1/2 flex items-end justify-end">
+              <div className="absolute bottom-8 right-8">
+                <div className="relative">
+                  <div className="absolute w-8 h-8 bg-current rounded-tl-full rounded-br-full opacity-40 rotate-45"></div>
+                  <div className="absolute w-6 h-6 bg-current rounded-tl-full rounded-br-full opacity-40 rotate-135 translate-x-4 -translate-y-4"></div>
+                  <div className="absolute w-5 h-5 bg-current rounded-tl-full rounded-br-full opacity-40 rotate-225 translate-x-6 -translate-y-1"></div>
+                </div>
+              </div>
+              <div className="absolute bottom-4 right-4 bg-white/15 p-3 rounded-lg text-xs font-bold text-center leading-tight">
+                NATURE'S GIFT<br />TO YOUR SKIN
+              </div>
             </div>
           </>
         );
       case 'product':
         return (
-          <div className="product-content">
-            <div className="card-category">{card.category}</div>
-            <div className="product-title">{card.title}</div>
-            <div className="product-visual">
-              <div className="product-box"></div>
+          <div className="h-full flex flex-col justify-between">
+            <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80 mb-4">
+              {card.category}
+            </div>
+            <div className="text-3xl font-black tracking-tight my-8">
+              {card.title}
+            </div>
+            <div className="flex items-center justify-center flex-grow">
+              <div className="relative w-20 h-25 bg-black/10 rounded-lg">
+                <div className="absolute top-3 left-3 right-3 h-5 bg-black/10 rounded"></div>
+              </div>
             </div>
           </div>
         );
       case 'beauty':
         return (
-          <div className="beauty-content">
-            <div className="card-category">{card.category}</div>
-            <div className="beauty-title">{card.title}</div>
-            {card.subtitle && <div className="beauty-subtitle">{card.subtitle}</div>}
-            <div className="beauty-icon">💄</div>
+          <div className="h-full flex flex-col justify-between text-center">
+            <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80 mb-4">
+              {card.category}
+            </div>
+            <div className="text-xl font-bold my-8">
+              {card.title}
+            </div>
+            {card.subtitle && (
+              <div className="text-sm opacity-80">
+                {card.subtitle}
+              </div>
+            )}
+            <div className="text-5xl mt-auto mb-8">💄</div>
           </div>
         );
       case 'wellness':
         return (
-          <div className="wellness-content">
-            <div className="card-category">{card.category}</div>
-            <div className="wellness-title">{card.title}</div>
-            <div className="wellness-icon">
+          <div className="h-full flex flex-col justify-between items-center text-center">
+            <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80 mb-4">
+              {card.category}
+            </div>
+            <div className="text-lg font-bold leading-tight my-8 text-center">
+              {card.title}
+            </div>
+            <div className="mt-auto mb-8 opacity-60">
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
@@ -182,587 +228,169 @@ const DesignCard = ({ card }) => {
         );
       default:
         return (
-          <div className="card-content">
-            <div className="card-category">{card.category}</div>
-            <div className="card-title">{card.title}</div>
-            {card.subtitle && <div className="card-subtitle">{card.subtitle}</div>}
+          <div className="relative z-10">
+            <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-xs font-semibold uppercase tracking-wider opacity-80 mb-4">
+              {card.category}
+            </div>
+            <div className="text-2xl font-bold leading-tight mb-2">
+              {card.title}
+            </div>
+            {card.subtitle && (
+              <div className="text-base opacity-90 leading-relaxed">
+                {card.subtitle}
+              </div>
+            )}
           </div>
         );
     }
   };
 
   return (
-    <motion.a 
-      href="#"
-      className="design-card block cursor-pointer"
+    <motion.div 
+      className={`
+        relative overflow-hidden bg-cover bg-center bg-no-repeat
+        flex-none w-[300px] h-[450px] rounded-3xl p-6
+        flex flex-col justify-between cursor-pointer
+        transition-all duration-300 ease-out
+        shadow-[0_10px_30px_rgba(0,0,0,0.3)]
+        hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]
+        hover:-translate-y-2 hover:scale-[1.02]
+        ${isActive ? 'scale-105 shadow-[0_15px_35px_rgba(0,0,0,0.4)]' : ''}
+        ${card.bgColor} ${card.textColor}
+        md:w-[280px] md:h-[400px] md:p-5
+        sm:w-[250px] sm:h-[350px] sm:p-4
+      `}
       style={{
-        backgroundColor: card.color,
-        color: card.textColor,
-        transform: 'rotateY(0deg) rotateX(0deg)',
-        transformStyle: 'preserve-3d',
         backgroundImage: `url(${card.backgroundImage})`
       }}
       whileHover={{ 
-        scale: 1.05,
-        rotateY: 5,
-        transition: { duration: 0.3 }
+        scale: 1.02,
+        y: -8,
+        transition: { duration: 0.2 }
       }}
-      whileTap={{ scale: 0.98 }}
-      onClick={(e) => {
-        e.preventDefault();
+      onClick={() => {
         console.log(`Clicked on ${card.title} project`);
-        // Future: navigate to project detail page
       }}
     >
-      {renderCardContent()}
-    </motion.a>
+      {/* Background overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/10 to-black/30 z-0"></div>
+      
+      {/* Content */}
+      <div className="relative z-10 h-full flex flex-col justify-between">
+        {renderCardContent()}
+      </div>
+    </motion.div>
   );
 };
 
 const DesignShowcase = () => {
-  const containerRef = useRef(null);
-  const cardsRef = useRef(null);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollContainerRef = useRef(null);
+  const [currentCard, setCurrentCard] = useState(1);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const totalCards = designCards.length;
 
   useEffect(() => {
-    const container = containerRef.current;
-    const cards = cardsRef.current;
-    
-    if (!container || !cards) return;
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
 
-    const cardElements = cards.querySelectorAll('.design-card');
-    const cardWidth = 300 + 32; // Card width + gap (2rem = 32px)
-    const totalWidth = cardElements.length * cardWidth;
-    const maxScroll = Math.max(0, totalWidth - window.innerWidth + 200);
-    
-    // Only create scroll animation if there's content to scroll
-    if (maxScroll <= 0) return;
-    
-    // Create horizontal scroll animation
-    const scrollTween = gsap.to(cards, {
-      x: () => -maxScroll,
-      ease: "none",
-      scrollTrigger: {
-        trigger: container,
-        start: "top top",
-        end: () => `+=${maxScroll}`,
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          setIsScrolling(self.isActive);
-          
-          // Apply 3D effects to cards based on their position
-          cardElements.forEach((card) => {
-            const cardRect = card.getBoundingClientRect();
-            const centerX = window.innerWidth / 2;
-            const cardCenterX = cardRect.left + cardRect.width / 2;
-            const distanceFromCenter = Math.abs(cardCenterX - centerX);
-            const maxDistance = window.innerWidth / 2;
-            const normalizedDistance = Math.min(distanceFromCenter / maxDistance, 1);
-            
-            // Calculate 3D transforms based on position
-            const rotationY = (cardCenterX < centerX ? -1 : 1) * normalizedDistance * 10;
-            const rotationX = Math.sin(normalizedDistance * Math.PI) * 3;
-            const scale = 1 - (normalizedDistance * 0.05);
-            const z = (1 - normalizedDistance) * 30;
-            
-            gsap.set(card, {
-              rotationY: rotationY,
-              rotationX: rotationX,
-              scale: scale,
-              z: z,
-              transformOrigin: "center center"
-            });
-          });
-        }
+    const handleScroll = () => {
+      const scrollLeft = scrollContainer.scrollLeft;
+      const cardWidth = 320; // Card width + gap
+      const newCurrentCard = Math.min(Math.floor(scrollLeft / cardWidth) + 1, totalCards);
+      setCurrentCard(newCurrentCard);
+      setScrollPosition(scrollLeft);
+    };
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+      const delta = e.deltaY || e.deltaX;
+      scrollContainer.scrollLeft += delta * 0.5;
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+    scrollContainer.addEventListener('wheel', handleWheel);
+
+    // Handle touch events for mobile
+    let startX = 0;
+    let startY = 0;
+    let isScrolling = false;
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isScrolling = false;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!startX || !startY) return;
+      
+      const deltaX = Math.abs(e.touches[0].clientX - startX);
+      const deltaY = Math.abs(e.touches[0].clientY - startY);
+      
+      if (deltaX > deltaY && deltaX > 10) {
+        isScrolling = true;
+        e.preventDefault();
       }
-    });
+    };
+
+    scrollContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+    scrollContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
-      scrollTween.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      scrollContainer.removeEventListener('scroll', handleScroll);
+      scrollContainer.removeEventListener('wheel', handleWheel);
+      scrollContainer.removeEventListener('touchstart', handleTouchStart);
+      scrollContainer.removeEventListener('touchmove', handleTouchMove);
     };
-  }, []);
+  }, [scrollPosition, totalCards]);
 
   return (
-    <section 
-      ref={containerRef}
-      className="design-showcase-section"
-    >
-      <style jsx>{`
-        .design-showcase-section {
-          height: 80vh;
-          overflow: hidden;
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-          position: relative;
-          width: 100%;
-          padding: 2rem 0;
-        }
-
-        .showcase-header {
-          position: absolute;
-          top: 5%;
-          left: 50%;
-          transform: translateX(-50%);
-          text-align: center;
-          z-index: 10;
-          pointer-events: none;
-          width: 100%;
-          padding: 0 2rem;
-        }
-
-        .showcase-category {
-          display: inline-block;
-          padding: 8px 20px;
-          background: rgba(34, 197, 94, 0.2);
-          border: 1px solid rgba(34, 197, 94, 0.3);
-          border-radius: 50px;
-          color: #22c55e;
-          font-size: 0.875rem;
-          font-weight: 500;
-          letter-spacing: 0.05em;
-          margin-bottom: 1rem;
-        }
-
-        .showcase-title {
-          font-size: clamp(1.75rem, 4vw, 2.5rem);
-          font-weight: 300;
-          color: white;
-          margin-bottom: 0.5rem;
-          line-height: 1.2;
-        }
-
-        .showcase-subtitle {
-          font-size: 0.875rem;
-          color: #94a3b8;
-          max-width: 500px;
-          margin: 0 auto;
-          line-height: 1.4;
-        }
-
-        .cards-container {
-          position: absolute;
-          top: 65%;
-          left: 0;
-          transform: translateY(-50%);
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-          height: 480px;
-          perspective: 1200px;
-          transform-style: preserve-3d;
-          will-change: transform;
-          flex-wrap: nowrap !important;
-          overflow: visible;
-          width: max-content;
-          padding-left: 2rem;
-        }
-
-        .design-card {
-          flex: none;
-          width: 300px;
-          height: 450px;
-          border-radius: 20px;
-          padding: 1.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.3),
-            0 15px 30px rgba(0, 0, 0, 0.2);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          transform-style: preserve-3d;
-          backface-visibility: hidden;
-          will-change: transform;
-          position: relative;
-          overflow: hidden;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          flex-shrink: 0;
-        }
-
-        .design-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%);
-          z-index: 1;
-        }
-
-        .design-card > * {
-          position: relative;
-          z-index: 2;
-        }
-
-        .design-card:hover {
-          transform: translateY(-10px) rotateY(5deg) !important;
-          box-shadow: 
-            0 30px 60px rgba(0, 0, 0, 0.4),
-            0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-content {
-          position: relative;
-          z-index: 2;
-        }
-
-        .card-category {
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          opacity: 0.8;
-          margin-bottom: 1rem;
-          padding: 0.5rem 1rem;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 50px;
-          display: inline-block;
-        }
-
-        .card-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          line-height: 1.3;
-          margin-bottom: 0.5rem;
-        }
-
-        .card-subtitle {
-          font-size: 1rem;
-          opacity: 0.9;
-          line-height: 1.4;
-        }
-
-        /* Logo Design Styles */
-        .logo-design {
-          position: absolute;
-          bottom: 2rem;
-          right: 2rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .logo-circle {
-          width: 80px;
-          height: 80px;
-          border: 2px solid currentColor;
-          border-radius: 50%;
-          opacity: 0.6;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .logo-inner {
-          width: 60px;
-          height: 60px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .logo-svg {
-          width: 40px;
-          height: 40px;
-        }
-
-        /* Promo Design Styles */
-        .promo-content {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-
-        .promo-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 2rem;
-        }
-
-        .promo-badge {
-          background: rgba(255, 255, 255, 0.2);
-          padding: 0.5rem 1rem;
-          border-radius: 50px;
-          font-size: 0.75rem;
-          font-weight: 700;
-        }
-
-        .promo-details {
-          font-size: 0.875rem;
-          opacity: 0.8;
-          margin: 1rem 0;
-        }
-
-        .promo-cta {
-          background: rgba(255, 255, 255, 0.2);
-          padding: 1rem 2rem;
-          border-radius: 50px;
-          text-align: center;
-          font-weight: 600;
-          margin-top: auto;
-        }
-
-        /* Nature Design Styles */
-        .nature-title {
-          font-size: 2.5rem;
-          font-weight: 900;
-          letter-spacing: -0.02em;
-          margin-bottom: 0.5rem;
-        }
-
-        .nature-subtitle {
-          font-size: 1rem;
-          opacity: 0.9;
-          margin-bottom: 2rem;
-        }
-
-        .nature-design {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 100%;
-          height: 50%;
-          display: flex;
-          align-items: flex-end;
-          justify-content: flex-end;
-        }
-
-        .nature-leaves {
-          position: absolute;
-          bottom: 2rem;
-          right: 2rem;
-        }
-
-        .leaf {
-          position: absolute;
-          background: currentColor;
-          border-radius: 0 100% 0 100%;
-          opacity: 0.4;
-        }
-
-        .leaf-1 {
-          width: 30px;
-          height: 30px;
-          transform: rotate(45deg);
-        }
-
-        .leaf-2 {
-          width: 25px;
-          height: 25px;
-          transform: rotate(135deg) translate(15px, -15px);
-        }
-
-        .leaf-3 {
-          width: 20px;
-          height: 20px;
-          transform: rotate(225deg) translate(25px, -5px);
-        }
-
-        .nature-badge {
-          position: absolute;
-          bottom: 1rem;
-          right: 1rem;
-          background: rgba(255, 255, 255, 0.15);
-          padding: 0.75rem;
-          border-radius: 10px;
-          font-size: 0.625rem;
-          font-weight: 700;
-          text-align: center;
-          line-height: 1.2;
-        }
-
-        /* Product Design Styles */
-        .product-content {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-
-        .product-title {
-          font-size: 2rem;
-          font-weight: 900;
-          letter-spacing: -0.02em;
-          margin: 2rem 0;
-        }
-
-        .product-visual {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-grow: 1;
-        }
-
-        .product-box {
-          width: 80px;
-          height: 100px;
-          background: rgba(0, 0, 0, 0.1);
-          border-radius: 8px;
-          position: relative;
-        }
-
-        .product-box::before {
-          content: '';
-          position: absolute;
-          top: 10px;
-          left: 10px;
-          right: 10px;
-          height: 20px;
-          background: rgba(0, 0, 0, 0.1);
-          border-radius: 4px;
-        }
-
-        /* Beauty Design Styles */
-        .beauty-content {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          text-align: center;
-        }
-
-        .beauty-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          margin: 2rem 0;
-        }
-
-        .beauty-subtitle {
-          font-size: 0.875rem;
-          opacity: 0.8;
-        }
-
-        .beauty-icon {
-          font-size: 3rem;
-          margin-top: auto;
-          margin-bottom: 2rem;
-        }
-
-        /* Wellness Design Styles */
-        .wellness-content {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
-          text-align: center;
-        }
-
-        .wellness-title {
-          font-size: 1.125rem;
-          font-weight: 700;
-          line-height: 1.3;
-          margin: 2rem 0;
-          text-align: center;
-        }
-
-        .wellness-icon {
-          margin-top: auto;
-          margin-bottom: 2rem;
-          opacity: 0.6;
-        }
-
-        .scroll-indicator {
-          position: absolute;
-          bottom: 2rem;
-          left: 50%;
-          transform: translateX(-50%);
-          color: white;
-          font-size: 0.875rem;
-          opacity: 0.7;
-          pointer-events: none;
-          z-index: 10;
-        }
-
-        @media (max-width: 1024px) and (min-width: 769px) {
-          .showcase-title {
-            font-size: 2rem;
-          }
-
-          .cards-container {
-            top: 62%;
-          }
-
-          .showcase-header {
-            top: 6%;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .design-showcase-section {
-            height: 70vh;
-            padding: 1rem 0;
-          }
-
-          .design-card {
-            width: 250px;
-            height: 360px;
-            padding: 1.25rem;
-          }
-
-          .showcase-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-          }
-
-          .showcase-subtitle {
-            font-size: 0.75rem;
-            padding: 0 1rem;
-            max-width: 300px;
-          }
-
-          .showcase-category {
-            font-size: 0.75rem;
-            padding: 6px 16px;
-            margin-bottom: 0.75rem;
-          }
-          
-          .cards-container {
-            gap: 1.5rem;
-            height: 360px;
-            top: 70%;
-            padding-left: 1rem;
-          }
-
-          .showcase-header {
-            top: 8%;
-            padding: 0 1rem;
-          }
-
-          .scroll-indicator {
-            font-size: 0.75rem;
-            bottom: 1rem;
-          }
-        }
-      `}</style>
-
+    <section className="min-h-screen py-16 flex flex-col justify-center items-center relative">
       {/* Header */}
-      <div className="showcase-header">
-        <div className="showcase-category">Graphics</div>
-        <h2 className="showcase-title">Design to Stare</h2>
-        <p className="showcase-subtitle">
+      <div className="text-center mb-16 px-8 max-w-6xl w-full">
+        <div className="inline-block px-5 py-2 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-sm font-medium tracking-wider mb-6">
+          Graphics
+        </div>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-4 leading-tight">
+          Design to Stare
+        </h2>
+        <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
           We create the most stunning graphic designs for your social media, websites, branding, or literally anything. They are just mindblowing
         </p>
       </div>
 
       {/* Scrollable Cards Container */}
-      <div ref={cardsRef} className="cards-container">
-        {designCards.map((card) => (
-          <DesignCard key={card.id} card={card} />
-        ))}
+      <div 
+        ref={scrollContainerRef} 
+        className="w-full max-w-full overflow-x-auto overflow-y-hidden px-8 pb-8 scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <div className="flex gap-8 px-8 w-max">
+          {designCards.map((card, index) => (
+            <DesignCard 
+              key={card.id} 
+              card={card} 
+              isActive={index + 1 === currentCard}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Card Counter */}
+      <div className="fixed bottom-8 right-8 text-white text-base font-semibold opacity-90 z-50 bg-black/50 px-6 py-3 rounded-full backdrop-blur-lg border border-white/10">
+        {currentCard}/{totalCards}
       </div>
 
       {/* Scroll Indicator */}
-      <div className="scroll-indicator">
-        {isScrolling ? 'Scrolling through designs' : 'Scroll down to navigate left/right'}
+      <div className="text-center mt-8 text-slate-400 text-sm">
+        Scroll horizontally to view all designs →
       </div>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 };

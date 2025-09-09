@@ -4,39 +4,28 @@ import ServicesSection from './ServicesSection';
 import DesignShowcase from './DesignShowcase';
 import PricingSection from './PricingSection';
 import ContactAboutSection from './ContactAboutSection';
-import SectionSeparator from '../components/SectionSeparator';
 import Footer from '../components/Footer';
 
 const Homepage = () => {
   return (
-    <div>
+    <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen">
       <section id="home">
         <HeroSection />
       </section>
       
-      <SectionSeparator />
-      
-      <section id="services">
-        <ServicesSection />
-      </section>
-      
-      <SectionSeparator variant="gradient" />
+      <WhyChooseUsSection />
       
       <section id="portfolio">
         <DesignShowcase />
       </section>
       
-      <SectionSeparator />
-      
-      <WhyChooseUsSection />
-      
-      <SectionSeparator variant="gradient" />
+      <section id="services">
+        <ServicesSection />
+      </section>
       
       <section id="pricing">
         <PricingSection />
       </section>
-      
-      <SectionSeparator />
       
       <section id="about">
         <ContactAboutSection />

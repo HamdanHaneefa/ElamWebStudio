@@ -35,8 +35,7 @@ const ContactAboutSection = () => {
       <style jsx>{`
         .contact-about-section {
           min-height: 100vh;
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-          padding: 4rem 0;
+          padding: 1rem 0;
           display: flex;
           align-items: center;
           justify-content: center;

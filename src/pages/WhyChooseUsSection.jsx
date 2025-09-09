@@ -31,8 +31,7 @@ const WhyChooseUsSection = () => {
     <section id="about" className="why-choose-us-section">
       <style jsx>{`
         .why-choose-us-section {
-          padding: 6rem 2rem;
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+          padding: 1rem 2rem;
           position: relative;
         }
 

@@ -11,9 +11,9 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="min-h-screen w-full flex flex-col justify-between items-center px-4 md:px-6 relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-16 md:pt-32 overflow-hidden hero-section-mobile">
+    <section className="min-h-screen w-full flex flex-col justify-between items-center px-4 md:px-6 relative pt-16 md:pt-32 overflow-hidden hero-section-mobile">
       {/* Smooth overlay for seamless transition */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-800/20 to-slate-800/30 pointer-events-none"></div>
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-800/20 to-slate-800/30 pointer-events-none"></div> */}
       
       {/* Main Heading - Perfectly Centered with Animation */}
       <div className="flex-1 flex items-center justify-center w-full max-w-full md:flex-1 relative z-10">

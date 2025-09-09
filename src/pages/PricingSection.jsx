@@ -135,13 +135,12 @@ const PricingSection = () => {
       <style jsx>{`
         .pricing-section {
           min-height: 100vh;
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-          padding: 6rem 2rem;
+          padding: 1rem 2rem;
           position: relative;
           overflow: hidden;
         }
 
-        .pricing-section::before {
+        /* .pricing-section::before {
           content: '';
           position: absolute;
           top: 0;
@@ -151,7 +150,7 @@ const PricingSection = () => {
           background: radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
                       radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
           pointer-events: none;
-        }
+        } */
 
         .pricing-container {
           max-width: 1200px;
