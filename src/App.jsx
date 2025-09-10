@@ -8,6 +8,7 @@ import SplashCursor from './components/SplashCursor';
 import { initSmoothScrolling } from './utils/smoothScroll';
 import usePageTitle from './hooks/usePageTitle';
 import { useAnalytics, useScrollTracking } from './hooks/useAnalytics';
+import ChatSpeedDial from './components/ChatSpeedDial';
 
 function AppContent() {
   // Initialize page title management
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="/" element={<Homepage />} />
         {/* Add more routes here as needed */}
       </Routes>
+  <ChatSpeedDial />
     </div>
   );
 }

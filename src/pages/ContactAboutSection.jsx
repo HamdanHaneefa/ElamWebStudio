@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
 import { trackFormSubmission, trackContactInteraction } from '../utils/analytics';
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://zkmqstzalcaxeliqfqca.supabase.co '
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprbXFzdHphbGNheGVsaXFmcWNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MTEzMjksImV4cCI6MjA3MzA4NzMyOX0.HJxA57AnL4CeVTN0pOMCB891LyxyFKatwI4TTzQs_4o'
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 const ContactAboutSection = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    phone: '',
     subject: '',
     message: '',
     consent: false
+  });
+
+  const [submitStatus, setSubmitStatus] = useState({
+    isSubmitting: false,
+    isSubmitted: false,
+    error: null
   });
 
   const handleInputChange = (e) => {
@@ -18,16 +31,68 @@ const ContactAboutSection = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
     
-    // Track form submission
-    trackFormSubmission('Contact Form');
-    trackContactInteraction('Form Submission');
+    // Set submitting state
+    setSubmitStatus({ isSubmitting: true, isSubmitted: false, error: null });
     
-    // Handle form submission here
-    // You can add your form submission logic here
+    try {
+      // Submit to Supabase
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .insert([
+         {
+        name: formData.firstName + " " + formData.lastName, // merge first + last
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        consent: true, // or formData.consent if you have checkbox
+        created_at: new Date().toISOString()
+      }
+        ])
+        .select();
+
+      if (error) {
+        throw error;
+      }
+
+      // Track successful submission
+      trackFormSubmission('Contact Form');
+      trackContactInteraction('Form Submission');
+      
+      // Reset form and show success
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+        consent: false
+      });
+      
+      setSubmitStatus({ 
+        isSubmitting: false, 
+        isSubmitted: true, 
+        error: null 
+      });
+      
+      console.log('Form submitted successfully:', data);
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus(prev => ({ ...prev, isSubmitted: false }));
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus({ 
+        isSubmitting: false, 
+        isSubmitted: false, 
+        error: error.message || 'Failed to submit form. Please try again.' 
+      });
+    }
   };
 
   return (
@@ -249,6 +314,31 @@ const ContactAboutSection = () => {
           height: 16px;
         }
 
+        .submit-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .error-message {
+          background-color: rgba(239, 68, 68, 0.1);
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          color: #ef4444;
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+
+        .success-message {
+          background-color: rgba(34, 197, 94, 0.1);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          color: #22c55e;
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+
         @media (max-width: 1024px) {
           .content-wrapper {
             grid-template-columns: 1fr;
@@ -326,7 +416,7 @@ const ContactAboutSection = () => {
           </div>
 
           {/* Contact Section */}
-          <div className="contact-section">
+          <div id="contact-form" className="contact-section">
             <div className="contact-header">
               <svg className="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -339,19 +429,49 @@ const ContactAboutSection = () => {
             </p>
 
             <form onSubmit={handleSubmit}>
+              {/* Status Messages */}
+              {submitStatus.error && (
+                <div className="error-message">
+                  {submitStatus.error}
+                </div>
+              )}
+              
+              {submitStatus.isSubmitted && (
+                <div className="success-message">
+                  Thank you! Your message has been sent successfully. We'll get back to you soon.
+                </div>
+              )}
+
               <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">
-                    Name <span className="required">*</span>
+                    First Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="firstName"
+                    value={formData.firstName}
                     onChange={handleInputChange}
-                    placeholder="Your full name"
+                    placeholder="Your first name"
                     className="form-input"
                     required
+                    disabled={submitStatus.isSubmitting}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">
+                    Last Name <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="Your last name"
+                    className="form-input"
+                    required
+                    disabled={submitStatus.isSubmitting}
                   />
                 </div>
 
@@ -367,6 +487,22 @@ const ContactAboutSection = () => {
                     placeholder="your.email@example.com"
                     className="form-input"
                     required
+                    disabled={submitStatus.isSubmitting}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="+1 (555) 123-4567"
+                    className="form-input"
+                    disabled={submitStatus.isSubmitting}
                   />
                 </div>
               </div>
@@ -375,15 +511,26 @@ const ContactAboutSection = () => {
                 <label className="form-label">
                   Subject <span className="required">*</span>
                 </label>
-                <input
-                  type="text"
+                <select
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  placeholder="What's this about?"
                   className="form-input"
                   required
-                />
+                  disabled={submitStatus.isSubmitting}
+                >
+                  <option value="">Select a subject...</option>
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Project Quote">Project Quote</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="UI/UX Design">UI/UX Design</option>
+                  <option value="E-Commerce">E-Commerce</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="Maintenance & Support">Maintenance & Support</option>
+                  <option value="Technical Consulting">Technical Consulting</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
 
               <div className="form-group full-width">
@@ -397,6 +544,7 @@ const ContactAboutSection = () => {
                   placeholder="Tell us about your project..."
                   className="form-textarea"
                   required
+                  disabled={submitStatus.isSubmitting}
                 />
               </div>
 
@@ -415,11 +563,15 @@ const ContactAboutSection = () => {
                 </label>
               </div>
 
-              <button type="submit" className="submit-button">
+              <button 
+                type="submit" 
+                className="submit-button"
+                disabled={submitStatus.isSubmitting}
+              >
                 <svg className="submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
-                Send Message
+                {submitStatus.isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>

@@ -242,8 +242,10 @@ const WhyChooseUsSection = () => {
           viewport={{ once: true }}
         >
           <div className="section-badge">Why Choose Us</div>
-          <h2 className="section-title">Experience The Benefits</h2>
-          <h3 className="section-subtitle">Of Our Expertise</h3>
+          <h2 className="text-4xl md:text-4xl lg:text-5xl font-light text-white mb-6">
+            Experience The
+            <span className="text-orange-400 font-normal"> Benefits</span>
+          </h2>
           <p className="section-description">
             Delivering powerful results that drive meaningful engagement and sustainable growth for your business with ElamWebStudio, a sub-brand of elamai.in
           </p>
