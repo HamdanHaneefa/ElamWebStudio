@@ -167,7 +167,7 @@ const Navbar = () => {
         <div
           className="lg:hidden fixed inset-0 z-40 flex flex-col"
           style={{
-            background: '#1e293b',
+            background: 'rgba(24,24,27,0.96)',
             backdropFilter: 'none',
             WebkitBackdropFilter: 'none'
           }}
@@ -192,7 +192,7 @@ const Navbar = () => {
             
             {/* Centered menu */}
             <div className="flex-1 flex flex-col items-center justify-center px-6">
-              <div className="bg-slate-800/40 rounded-xl border border-white/10 px-8 py-8 w-full max-w-xs mx-auto backdrop-blur-sm">
+              <div className="bg-black/40 rounded-xl border border-white/10 px-8 py-8 w-full max-w-xs mx-auto backdrop-blur-sm">
                 {navItems.map((item, index) => (
                   <a
                     key={index}

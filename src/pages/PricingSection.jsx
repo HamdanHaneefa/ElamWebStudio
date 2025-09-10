@@ -225,8 +225,8 @@ const PricingSection = () => {
           align-items: stretch;
         }
         .pricing-card {
-          background: rgba(15, 23, 42, 0.85);
-          border: 1px solid rgba(148, 163, 184, 0.2);
+          background: rgba(12, 12, 12, 0.88);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
           padding: 1.5rem;
           position: relative;

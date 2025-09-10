@@ -9,6 +9,7 @@ import { initSmoothScrolling } from './utils/smoothScroll';
 import usePageTitle from './hooks/usePageTitle';
 import { useAnalytics, useScrollTracking } from './hooks/useAnalytics';
 import ChatSpeedDial from './components/ChatSpeedDial';
+import SiteLoader from './components/SiteLoader';
 
 function AppContent() {
   // Initialize page title management
@@ -24,7 +25,8 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 overflow-x-hidden max-w-full">
+    <div className="min-h-screen overflow-x-hidden max-w-full bg-transparent">
+  <SiteLoader />
       <Navbar />
       <Routes>
         <Route path="/" element={<Homepage />} />

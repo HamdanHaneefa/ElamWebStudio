@@ -167,8 +167,8 @@ const ContactAboutSection = () => {
         }
 
         .contact-section {
-          background: rgba(30, 41, 59, 0.5);
-          border: 1px solid rgba(71, 85, 105, 0.3);
+          background: rgba(12, 12, 12, 0.55);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
           padding: 2.5rem;
           backdrop-filter: blur(10px);
@@ -230,8 +230,8 @@ const ContactAboutSection = () => {
 
         .form-input,
         .form-textarea {
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid rgba(71, 85, 105, 0.4);
+          background: rgba(28, 28, 28, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 8px;
           padding: 0.75rem 1rem;
           color: white;

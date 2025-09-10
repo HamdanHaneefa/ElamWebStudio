@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import FadeContent from '../components/FadeContent';
 import { Star, CheckCircle, Users } from 'lucide-react';
 
 const benefitsData = [
@@ -80,167 +80,122 @@ const WhyChooseUsSection = () => {
 
         .benefits-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 2rem;
-          margin-top: 3rem;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0.5rem; /* tighter gap on mobile */
+          margin-top: 1.5rem;
+          align-items: stretch; /* make items equal height when possible */
         }
 
-        /* Mobile Horizontal Scroller */
-        @media (max-width: 1024px) {
-          .benefits-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding: 0 1rem 2rem 1rem;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            grid-template-columns: none;
-          }
-          
-          .benefits-grid::-webkit-scrollbar {
-            display: none;
-          }
-
-          .benefit-card {
-            flex: 0 0 300px;
-            scroll-snap-align: center;
-          }
+        .benefit-item {
+          display: grid;
+          grid-template-rows: auto auto auto;
+          justify-items: center;
+          text-align: center;
+          padding: 0.5rem; /* smaller padding on mobile */
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(0, 0, 0, 0.35);
+          gap: 0.4rem;
+          height: 96px; /* fixed equal height on mobile for perfect alignment */
+          box-sizing: border-box;
         }
 
-        .benefit-card {
-          background: rgba(15, 23, 42, 0.8);
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(148, 163, 184, 0.1);
-          border-radius: 20px;
-          padding: 2rem;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-          box-shadow: 
-            0 4px 20px rgba(0, 0, 0, 0.15),
-            0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .benefit-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, rgba(251, 146, 60, 0.05) 0%, rgba(251, 146, 60, 0.02) 50%, transparent 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .benefit-card:hover::before {
-          opacity: 1;
-        }
-
-        .benefit-card:hover {
-          transform: translateY(-8px);
-          border-color: rgba(251, 146, 60, 0.3);
-          box-shadow: 
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            0 16px 64px rgba(0, 0, 0, 0.15),
-            0 0 40px rgba(251, 146, 60, 0.1);
-        }
-
-        .card-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1.5rem;
-        }
-
-        .icon-container {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 60px;
-          height: 60px;
-          background: rgba(251, 146, 60, 0.1);
-          border: 1px solid rgba(251, 146, 60, 0.3);
-          border-radius: 16px;
+        .benefit-icon {
+          display: grid;
+          place-items: center;
+          width: 32px; /* smaller icon tile */
+          height: 32px;
+          border-radius: 8px;
           color: #fb923c;
+          background: rgba(251,146,60,0.1);
+          border: 1px solid rgba(251,146,60,0.25);
+        }
+        .benefit-icon svg {
+          width: 18px; /* smaller svg to fit tile */
+          height: 18px;
         }
 
-        .card-label {
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #fb923c;
-          background: rgba(251, 146, 60, 0.1);
-          border: 1px solid rgba(251, 146, 60, 0.3);
-          padding: 6px 12px;
-          border-radius: 50px;
-          letter-spacing: 0.05em;
-        }
-
-        .card-title {
-          font-size: 1.5rem;
+        .benefit-title {
+          font-size: 0.82rem; /* smaller title */
           font-weight: 600;
           color: white;
-          margin-bottom: 1rem;
-          line-height: 1.3;
+          line-height: 1.15;
+          overflow: hidden; /* clamp to 2 lines to prevent tall cards */
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
 
-        .card-description {
-          font-size: 1rem;
+        .benefit-label {
+          font-size: 0.6rem; /* smaller label */
+          letter-spacing: 0.08em;
+          color: #fb923c;
+          background: rgba(251,146,60,0.08);
+          border: 1px solid rgba(251,146,60,0.25);
+          border-radius: 999px;
+          padding: 2px 6px; /* tighter badge */
+        }
+
+        .benefit-desc {
+          display: none;
+          font-size: 0.85rem;
           color: #94a3b8;
-          line-height: 1.6;
+          line-height: 1.5;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
           .why-choose-us-section {
-            padding: 4rem 1rem;
+            padding: 4rem 2rem;
           }
 
-          .section-badge {
-            font-size: 0.75rem;
-            padding: 6px 16px;
+          .benefits-grid {
+            gap: 0.75rem;
           }
 
-          .section-title {
-            font-size: 1.75rem;
+          .benefit-item {
+            padding: 0.75rem;
+            height: auto; /* default; overridden on larger desktops for equal heights */
+            min-height: 100px;
           }
 
-          .section-subtitle {
-            font-size: 1.25rem;
+          .benefit-icon {
+            width: 40px;
+            height: 40px;
+          }
+          .benefit-icon svg {
+            width: 22px;
+            height: 22px;
           }
 
-          .section-description {
-            font-size: 1rem;
-            margin-bottom: 3rem;
+          .benefit-title {
+            font-size: 0.95rem;
           }
 
-          .benefit-card {
-            padding: 1.5rem;
+          .benefit-desc {
+            display: block;
+            margin-top: 0.25rem;
           }
+        }
 
-          .icon-container {
-            width: 50px;
-            height: 50px;
+        /* Desktop refinements: equal-height cards and consistent alignment */
+        @media (min-width: 1024px) {
+          .benefits-grid {
+            gap: 1rem;
           }
-
-          .card-title {
-            font-size: 1.25rem;
+          /* Stretch the immediate children (FadeContent wrappers) to row height */
+          .benefits-grid > * {
+            height: 100%;
+            display: flex;
           }
-
-          .card-description {
-            font-size: 0.875rem;
+          /* Make the card fill its wrapper to align bottoms perfectly */
+          .benefit-item {
+            height: 100%;
           }
         }
       `}</style>
 
       <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+        <FadeContent duration={600} blur threshold={0.2}>
           <div className="section-badge">Why Choose Us</div>
           <h2 className="text-4xl md:text-4xl lg:text-5xl font-light text-white mb-6">
             Experience The
@@ -249,36 +204,18 @@ const WhyChooseUsSection = () => {
           <p className="section-description">
             Delivering powerful results that drive meaningful engagement and sustainable growth for your business with ElamWebStudio, a sub-brand of elamai.in
           </p>
-        </motion.div>
+        </FadeContent>
 
         <div className="benefits-grid">
           {benefitsData.map((benefit, index) => (
-            <motion.div
-              key={benefit.id}
-              className="benefit-card"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.6, 
-                delay: index * 0.2 
-              }}
-              viewport={{ once: true }}
-              whileHover={{ 
-                y: -8,
-                transition: { duration: 0.3 }
-              }}
-            >
-              <div className="card-header">
-                <div className="icon-container">
-                  {benefit.icon}
-                </div>
-                <div className="card-label">
-                  {benefit.label}
-                </div>
+            <FadeContent key={benefit.id} duration={500} delay={index * 120} threshold={0.2}>
+              <div className="benefit-item">
+                <div className="benefit-icon">{benefit.icon}</div>
+                <div className="benefit-title">{benefit.title}</div>
+                <div className="benefit-label">{benefit.label}</div>
+                <p className="benefit-desc">{benefit.description}</p>
               </div>
-              <h3 className="card-title">{benefit.title}</h3>
-              <p className="card-description">{benefit.description}</p>
-            </motion.div>
+            </FadeContent>
           ))}
         </div>
       </div>
