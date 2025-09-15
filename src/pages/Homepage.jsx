@@ -1,7 +1,7 @@
 import HeroSection from '../components/Hero';
 import WhyChooseUsSection from './WhyChooseUsSection';
 import ServicesSection from './ServicesSection';
-import DesignShowcase from './DesignShowcase';
+// import DesignShowcase from './DesignShowcase';
 import PricingSection from './PricingSection';
 import ContactAboutSection from './ContactAboutSection';
 import Footer from '../components/Footer';
@@ -21,10 +21,10 @@ const Homepage = () => {
           <ServicesSection />
         </section>
 
-        <section id="portfolio">
+{/*         <section id="portfolio">
           <DesignShowcase />
         </section>
-        
+         */}
         <section id="pricing">
           <PricingSection />
         </section>
