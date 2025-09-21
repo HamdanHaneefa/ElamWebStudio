@@ -45,7 +45,7 @@ const PricingSection = () => {
       name: 'Basic',
       icon: <Star className="w-6 h-6" />,
       description: 'Essential starter website',
-      price: '599', // INR
+      price: '999', // INR
       suffix: '/-',
       popular: false,
       features: [
