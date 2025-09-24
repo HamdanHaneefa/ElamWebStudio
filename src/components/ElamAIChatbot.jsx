@@ -25,7 +25,7 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
       setMessages([
         {
           id: Date.now().toString(),
-          content: "👋 Hello! I'm ElamAI, your assistant. How can I help you today?",
+          content: "👋 Hello! ",
           sender: 'bot',
           timestamp: new Date(),
         },
