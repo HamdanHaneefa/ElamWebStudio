@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+const sessionId = crypto.randomUUID();
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -49,7 +49,7 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
       const response = await fetch('https://n8n.elamai.in/webhook/89d0119c-ca35-4f10-ae9c-6282e5a3f362/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: content }),
+         body: JSON.stringify({ message: content, sessionId }),
       });
       if (!response.ok) throw new Error('Failed to get response');
       const data = await response.json();
