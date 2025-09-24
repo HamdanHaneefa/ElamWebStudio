@@ -46,7 +46,7 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
     setInputValue('');
     setIsLoading(true);
     try {
-      const response = await fetch('https://n8n.elamai.in/webhook/18ff34df-ac65-4416-978d-f23db0033fc7', {
+      const response = await fetch('https://n8n.elamai.in/webhook/89d0119c-ca35-4f10-ae9c-6282e5a3f362/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: content }),
