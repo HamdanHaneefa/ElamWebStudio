@@ -49,10 +49,10 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
       const response = await fetch('https://n8n.elamai.in/webhook/89d0119c-ca35-4f10-ae9c-6282e5a3f362/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ message: content, sessionId }),
+        body: JSON.stringify({ message: content, sessionId }),
       });
-      if (!response.ok) throw new Error('Failed to get response');
       const data = await response.json();
+      console.log(data)
       const botMessage = {
         id: (Date.now() + 1).toString(),
         content: data.output || "I'm sorry, I couldn't process your request right now. Please try again later.",
@@ -61,6 +61,7 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
       };
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
+      console.error(err)
       const errorMessage = {
         id: (Date.now() + 1).toString(),
         content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.",
@@ -122,42 +123,62 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
               </div>
               <span className="text-xs text-gray-300">AI Assistant • Online</span>
             </div>
-            <div className="h-80 overflow-y-auto p-4 space-y-4 bg-gray-50">
-              {messages.map((m) => (
-                <div key={m.id} className={cn('flex items-start gap-2', m.sender === 'user' ? 'justify-end' : 'justify-start')}>
-                  {m.sender === 'bot' && (
+            
+            {/* Messages Section with Footer */}
+            <div className="h-80 flex flex-col">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                {messages.map((m) => (
+                  <div key={m.id} className={cn('flex items-start gap-2', m.sender === 'user' ? 'justify-end' : 'justify-start')}>
+                    {m.sender === 'bot' && (
+                      <div className="flex-shrink-0 w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                        <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                      </div>
+                    )}
+                    <div className={cn('max-w-xs px-3 py-2 rounded-lg text-sm', m.sender === 'user' ? 'bg-black text-white rounded-br-none' : 'bg-white border border-gray-200 text-gray-900 rounded-bl-none')}>
+                      <p className="whitespace-pre-wrap break-words">{m.content}</p>
+                      <p className={cn('text-xs mt-1', m.sender === 'user' ? 'text-gray-300' : 'text-gray-500')}>{formatTime(m.timestamp)}</p>
+                    </div>
+                    {m.sender === 'user' && (
+                      <div className="flex-shrink-0 w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                        <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="flex items-start gap-2">
                     <div className="flex-shrink-0 w-8 h-8 bg-black rounded-full flex items-center justify-center">
                       <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                     </div>
-                  )}
-                  <div className={cn('max-w-xs px-3 py-2 rounded-lg text-sm', m.sender === 'user' ? 'bg-black text-white rounded-br-none' : 'bg-white border border-gray-200 text-gray-900 rounded-bl-none')}>
-                    <p className="whitespace-pre-wrap break-words">{m.content}</p>
-                    <p className={cn('text-xs mt-1', m.sender === 'user' ? 'text-gray-300' : 'text-gray-500')}>{formatTime(m.timestamp)}</p>
-                  </div>
-                  {m.sender === 'user' && (
-                    <div className="flex-shrink-0 w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-                      <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div>
-                  )}
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex items-start gap-2">
-                  <div className="flex-shrink-0 w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                    <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-                  </div>
-                  <div className="bg-white border border-gray-200 rounded-lg rounded-bl-none px-3 py-2">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="bg-white border border-gray-200 rounded-lg rounded-bl-none px-3 py-2">
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
                     </div>
                   </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+              
+              {/* Powered by Footer */}
+              <div className="px-4 py-2 bg-gray-50 border-t border-gray-200">
+                <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                  <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 8V4H8"/>
+                    <rect width="16" height="12" x="4" y="8" rx="2"/>
+                    <path d="M2 14h2"/>
+                    <path d="M20 14h2"/>
+                    <path d="M15 13v2"/>
+                    <path d="M9 13v2"/>
+                  </svg>
+                  <span>Powered by <strong className="text-gray-700">ElamAI</strong></span>
                 </div>
-              )}
-              <div ref={messagesEndRef} />
+              </div>
             </div>
-            <form onSubmit={handleSubmit} className="p-3 border-t bg-white">
+            
+            <div className="p-3 border-t bg-white">
               <div className="flex gap-2">
                 <input
                   value={inputValue}
@@ -167,11 +188,15 @@ export default function ElamAIChatbot({ anchor = 'top-right' }) {
                   disabled={isLoading}
                   className="flex-1 h-9 rounded-md border border-gray-300 px-3 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                 />
-                <button type="submit" disabled={isLoading || !inputValue.trim()} className="h-9 w-9 rounded-md bg-black text-white hover:bg-gray-800 flex items-center justify-center">
+                <button 
+                  onClick={() => sendMessage(inputValue)}
+                  disabled={isLoading || !inputValue.trim()} 
+                  className="h-9 w-9 rounded-md bg-black text-white hover:bg-gray-800 flex items-center justify-center"
+                >
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
